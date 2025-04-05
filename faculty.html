@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiX - Faculty Portal</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Color Palette (same as Student Portal) */
+            --primary-blue: #2c3e50;
+            --secondary-blue: #3498db;
+            --accent-teal: #1abc9c;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --white: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --primary-gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            --accent-gradient: linear-gradient(to right, var(--accent-teal), #16a085);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--primary-blue);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-top: 3px solid var(--accent-teal);
+            height: 100%;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .card-header .badge {
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+
+        .btn-accent {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(26, 188, 156, 0.3);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+            color: var(--white);
+        }
+
+        .progress-container {
+            margin-top: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        .notification-bell {
+            position: relative;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+            
+            .dashboard-header {
+                padding: 1rem;
+            }
+            
+            .dashboard-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">AcademiX</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-home mr-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-book mr-1"></i> Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-tasks mr-1"></i> Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-users mr-1"></i> Students</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-bullhorn mr-1"></i> Notifications</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="notification-bell mr-3">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">2</span>
+                    </div>
+                    <img src="https://via.placeholder.com/32x32?text=FD" alt="Faculty Profile">
+                    <span class="text-white small d-none d-md-inline">Faculty Name</span>
+                    <a href="#" class="nav-link ml-2"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h2>Welcome back, Faculty!</h2>
+                <p class="mb-0">You have 2 new notifications and 4 pending tasks</p>
+            </div>
+
+            <div class="row">
+                <!-- 1. Course Creation & Management -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-book-open mr-2"></i>Course Creation & Management</h3>
+                            <span class="badge badge-primary">2 Courses</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Development</div>
+                                <div class="item-meta">CS-101 | 50 Students</div>
+                            </div>
+                            <div>
+                                <button class="btn-accent btn-sm mr-2">Edit</button>
+                                <button class="btn-danger btn-sm">Delete</button>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Data Structures</div>
+                                <div class="item-meta">CS-102 | 40 Students</div>
+                            </div>
+                            <div>
+                                <button class="btn-accent btn-sm mr-2">Edit</button>
+                                <button class="btn-danger btn-sm">Delete</button>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Add Course Content</div>
+                                <div class="item-meta">Lectures, PDFs, Videos</div>
+                            </div>
+                            <button class="btn-accent">Upload</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Assignment & Quiz Management -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tasks mr-2"></i>Assignment & Quiz Management</h3>
+                            <span class="badge badge-info">3 Active</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Dev Project</div>
+                                <div class="item-meta">Due: Apr 06 | 30 Submissions</div>
+                            </div>
+                            <button class="btn-accent">Manage</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">DS Quiz 2</div>
+                                <div class="item-meta">Auto-Graded | Avg: 82%</div>
+                            </div>
+                            <button class="btn-accent">Review</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Create New</div>
+                                <div class="item-meta">Assignment or Quiz</div>
+                            </div>
+                            <button class="btn-accent">Create</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Student Performance Tracking -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line mr-2"></i>Student Performance Tracking</h3>
+                            <span class="badge badge-warning">5 Pending</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">John Doe</div>
+                                <div class="item-meta">Web Dev | Avg: 88%</div>
+                            </div>
+                            <button class="btn-accent">View</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Jane Smith</div>
+                                <div class="item-meta">DS | Avg: 75%</div>
+                            </div>
+                            <button class="btn-accent">View</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Grade Assignment</div>
+                                <div class="item-meta">5 Pending Submissions</div>
+                            </div>
+                            <button class="btn-accent">Grade</button>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Class Average</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 82%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Notifications & Reminders -->
+                <div class="col-md-12">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bullhorn mr-2"></i>Notifications & Reminders</h3>
+                            <span class="badge badge-danger">2 New</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Assignment Deadline</div>
+                                <div class="item-meta">Web Dev Project due Apr 06</div>
+                            </div>
+                            <button class="btn-accent">Remind</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Live Class Reminder</div>
+                                <div class="item-meta">Data Structures | Apr 05, 2:00 PM</div>
+                            </div>
+                            <button class="btn-accent">Notify</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Send Announcement</div>
+                                <div class="item-meta">Notify students about updates</div>
+                            </div>
+                            <button class="btn-accent">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>AcademiX Faculty Portal</h5>
+                    <p class="small">Empower your teaching experience.</p>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <p class="small mb-0">© 2023 AcademiX. All rights reserved.</p>
+                    <p class="small mb-0"><a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a></p>
+                [/div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Simple notification system
+        document.querySelectorAll('.notification-bell').forEach(bell => {
+            bell.addEventListener('click', function() {
+                this.querySelector('.notification-count').textContent = '0';
+                this.querySelector('.notification-count').classList.remove('bg-danger');
+                this.querySelector('.notification-count').classList.add('bg-secondary');
+            });
+        });
+
+        // Simulate button actions
+        document.querySelectorAll('.btn-accent, .btn-danger').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Processing...';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    alert('Action completed successfully!');
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

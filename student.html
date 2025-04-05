@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiX - Student Portal</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary-blue: #2c3e50;
+            --secondary-blue: #3498db;
+            --accent-teal: #1abc9c;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --white: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --primary-gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            --accent-gradient: linear-gradient(to right, var(--accent-teal), #16a085);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--primary-blue);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-top: 3px solid var(--accent-teal);
+            height: 100%;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .card-header .badge {
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+
+        .btn-accent {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(26, 188, 156, 0.3);
+            color: var(--white);
+        }
+
+        .progress-container {
+            margin-top: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        .notification-bell {
+            position: relative;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Assignment Submission Form (Updated to match image) */
+        .assignment-form {
+            padding: 1.5rem;
+        }
+        .assignment-form h1 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+        .assignment-form h2 {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .file-upload-container {
+            margin: 1.5rem 0;
+        }
+        .file-upload-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+        .file-input-button {
+            background: var(--medium-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+        .file-name {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        .submit-assignment-btn {
+            background: var(--accent-teal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-assignment-btn:hover {
+            background: #16a085;
+        }
+        .divider {
+            border-top: 1px solid var(--medium-gray);
+            margin: 2rem 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+            
+            .dashboard-header {
+                padding: 1rem;
+            }
+            
+            .dashboard-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">AcademiX</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-home mr-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-book mr-1"></i> Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-tasks mr-1"></i> Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-question-circle mr-1"></i> Quizzes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-chart-line mr-1"></i> Grades</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="notification-bell mr-3">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">2</span>
+                    </div>
+                    <img src="https://via.placeholder.com/32x32?text=SD" alt="Student Profile">
+                    <span class="text-white small d-none d-md-inline">Student Name</span>
+                    <a href="#" class="nav-link ml-2"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h2>Welcome back, Student!</h2>
+                <p class="mb-0">You have 2 new notifications and 3 pending tasks</p>
+            </div>
+
+            <div class="row">
+                <!-- 1. Course Enrollment -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-book-open mr-2"></i>Course Enrollment</h3>
+                            <span class="badge badge-primary">2 Enrolled</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Development</div>
+                                <div class="item-meta">CS-101 | Prof. Smith</div>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Data Structures</div>
+                                <div class="item-meta">CS-102 | Prof. Johnson</div>
+                            </div>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Available Courses</div>
+                                <div class="item-meta">5 new courses this semester</div>
+                            </div>
+                            <button class="btn-accent">Browse</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Lecture Access -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-video mr-2"></i>Lecture Access</h3>
+                            <span class="badge badge-info">New</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Dev - Lecture 5</div>
+                                <div class="item-meta">Recorded | 45 min</div>
+                            </div>
+                            <button class="btn-accent">Watch</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Data Structures - Live</div>
+                                <div class="item-meta">Today 2:00 PM</div>
+                            </div>
+                            <button class="btn-accent">Join</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Course Materials</div>
+                                <div class="item-meta">3 new resources</div>
+                            </div>
+                            <button class="btn-accent">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Assignment Submission (Updated to match image, Quizzes removed) -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="dashboard-card assignment-form">
+                        <h1>Assignment Submission</h1>
+                        <h2>Assignment Title</h2>
+                        
+                        <div class="file-upload-container">
+                            <label class="file-upload-label">Upload File</label>
+                            <div class="file-input-wrapper">
+                                <label class="file-input-button">
+                                    Choose File
+                                    <input type="file" id="assignmentFile" style="display: none;">
+                                </label>
+                                <span class="file-name" id="fileName">No file chosen</span>
+                            </div>
+                        </div>
+                        
+                        <button class="submit-assignment-btn">Submit Assignment</button>
+                    </div>
+                </div>
+
+                <!-- 4. Quiz & Exam Participation -->
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-question-circle mr-2"></i>Quiz & Exams</h3>
+                            <span class="badge badge-danger">1 Upcoming</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Dev Quiz 2</div>
+                                <div class="item-meta">Apr 05 | 30 min duration</div>
+                            </div>
+                            <button class="btn-accent">Start</button>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">DS Midterm</div>
+                                <div class="item-meta">Completed: 85%</div>
+                            </div>
+                            <button class="btn-accent">Review</button>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Quiz Performance</span>
+                                <span>Average: 82%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" style="width: 82%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Grades & Feedback -->
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line mr-2"></i>Grades & Feedback</h3>
+                            <span class="badge badge-success">Updated</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Dev Assignment 3</div>
+                                <div class="item-meta">Grade: A | Feedback: Excellent work!</div>
+                            </div>
+                            <span class="badge badge-success">A</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">DS Quiz 1</div>
+                                <div class="item-meta">Grade: B+ | Feedback: Review sorting algorithms</div>
+                            </div>
+                            <span class="badge badge-warning">B+</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Overall Performance</span>
+                                <span>GPA: 3.6</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Notifications & Announcements -->
+                <div class="col-12">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bell mr-2"></i>Notifications</h3>
+                            <span class="badge badge-danger">2 New</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Web Development Class</div>
+                                <div class="item-meta">Live class starts in 1 hour! Assignment due tomorrow</div>
+                            </div>
+                            <span class="badge badge-danger">New</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">New Grade Posted</div>
+                                <div class="item-meta">Your Web Dev assignment has been graded</div>
+                            </div>
+                            <span class="badge badge-danger">New</span>
+                        </div>
+                        <div class="list-item">
+                            <div>
+                                <div class="item-title">Campus Announcement</div>
+                                <div class="item-meta">Library will be closed this Saturday</div>
+                            </div>
+                            <button class="btn-accent">View All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>AcademiX Student Portal</h5>
+                    <p class="small">Your complete e-learning solution for academic success.</p>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <p class="small mb-0">© 2023 AcademiX. All rights reserved.</p>
+                    <p class="small mb-0"><a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Simple notification system
+        document.querySelectorAll('.notification-bell').forEach(bell => {
+            bell.addEventListener('click', function() {
+                this.querySelector('.notification-count').textContent = '0';
+                this.querySelector('.notification-count').classList.remove('bg-danger');
+                this.querySelector('.notification-count').classList.add('bg-secondary');
+            });
+        });
+
+        // Simulate form submissions
+        document.querySelectorAll('.btn-accent').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if(this.textContent.includes('Submit') || this.textContent.includes('Start')) {
+                    e.preventDefault();
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span> Processing...';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        alert('Action completed successfully!');
+                    }, 1500);
+                }
+            });
+        });
+
+        // File upload display
+        document.getElementById('assignmentFile').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('fileName').textContent = fileName;
+        });
+
+        // Assignment submission
+        document.querySelector('.submit-assignment-btn').addEventListener('click', function() {
+            const file = document.getElementById('assignmentFile').files[0];
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+            this.textContent = 'Submitting...';
+            setTimeout(() => {
+                this.textContent = 'Submit Assignment';
+                alert('Assignment submitted successfully!');
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
